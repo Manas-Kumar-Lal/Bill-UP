@@ -42,9 +42,9 @@ app.use(cors(corsOptions));
 // })
 
 // routes import***********
-const userRoute = require('./routes/user.route.js')
+const productRoute = require('./routes/product.route.js')
 
-app.use('/api/v1', userRoute)
+app.use('/api/v1', productRoute)
 app.use(express.urlencoded({ extended: true }))
 
 // middleware imports*******
