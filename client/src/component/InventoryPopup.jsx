@@ -20,7 +20,7 @@ const InventoryPopup = ({ addedProducts, setAddedProducts, createItemPopup, setC
             productID: item._id,
             productName: item.productName,
             quantity: '',
-            price: '',
+            price: item.sp,
             amount: '',
         }])
     }
@@ -60,6 +60,7 @@ const InventoryPopup = ({ addedProducts, setAddedProducts, createItemPopup, setC
                         Cancel
                     </button>
                     <button
+                    onClick={handleCancel}
                         type="submit"
                         className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
