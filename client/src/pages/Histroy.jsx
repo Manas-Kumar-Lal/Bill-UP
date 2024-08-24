@@ -25,7 +25,7 @@ const History = () => {
           <div className="grid grid-cols-7 gap-4 text-center font-bold mb-4">
             <div>Bill No</div>
             <div>Date</div>
-            <div>Product ID</div>
+            <div>Customer Name</div>
             <div>Product Name</div>
             <div>Quantity</div>
             <div>sp</div>

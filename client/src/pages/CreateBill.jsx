@@ -73,7 +73,7 @@ const CreateBill = () => {
 
     const response = await dispatch(createBill(detailsToSend))
     console.log(response)
-    if(response.payload){
+    if (response.payload) {
       console.log('bill created')
     }
 
@@ -94,21 +94,27 @@ const CreateBill = () => {
           </div>
 
           <div className="w-full bg-white p-6 rounded-lg shadow-lg mb-1">
-            <div className='text-red-600 font-bold text-lg' > {"Required"} </div>
+            <div className='text-red-600 text-lg mb-2' > Required * </div>
             <input type="name" placeholder='Customer Name' className="w-full p-2 border rounded" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
           </div>
 
           <div className="w-full bg-white p-6 rounded-lg shadow-lg">
-            <div className="grid grid-cols-4 gap-4 text-center font-bold mb-4">
-              <div>Product Name</div>
-              <div>Quantity</div>
-              <div>Price</div>
-              <div>Amount</div>
-            </div>
+            {
+              products?.length <= 0 ? (
+                <p className='mb-3'>Please Add Products..!!</p>
+              ) : (
+                <div className="grid grid-cols-4 gap-4 text-center font-bold mb-4">
+                  <div>Product Name</div>
+                  <div>Quantity</div>
+                  <div>Price</div>
+                  <div>Amount</div>
+                </div>
+              )
+            }
 
             {products.map((product, index) => (
               <div key={index} className="grid grid-cols-4 gap-4 mb-4">
-                <h2>{product?.productName}</h2>
+                <h2 className='font-semibold'>{product?.productName}</h2>
                 <input
                   type="number"
                   value={product.quantity}
@@ -139,23 +145,24 @@ const CreateBill = () => {
 
           {/* Total Amount */}
           <div className="w-full flex bg-white p-6 rounded-lg shadow-lg mt-4">
-            <div className="w-full bg-white p-6 rounded-lg  mt-4">
-              <button onClick={handleGoAhead} className="bg-green-500 text-white px-4 py-2 rounded">
-                Go Ahead
-              </button>
-            </div>
             <div className='flex flex-col whitespace-nowrap'>
-              <div className="text-right font-bold">
+              <div className="font-bold">
                 Total Amount: ₹{totalAmount}
               </div>
-              <div className="text-right">
+              <div>
                 Amount in Words: {numberToWords(totalAmount)}
               </div>
             </div>
-
           </div>
-        </div>
-      </div>
+
+          <div className="w-full flex bg-white p-6 rounded-lg shadow-lg mt-4">
+            <button onClick={handleGoAhead} className="bg-green-500 text-white px-4 py-2 rounded">
+              Go Ahead
+            </button>
+          </div>
+
+        </div >
+      </div >
     </>
   );
 };
