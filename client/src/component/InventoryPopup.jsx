@@ -45,7 +45,7 @@ const InventoryPopup = ({ addedProducts, setAddedProducts, createItemPopup, setC
 
                                 <div>₹{item.sp}</div>
 
-                                <input type="checkbox" checked={isAdded} />
+                                <input className='h-fit' type="checkbox" checked={isAdded} />
                             </div>
                         )
                     })}
