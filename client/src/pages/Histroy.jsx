@@ -44,7 +44,7 @@ const History = () => {
                   ) : (
                     <div></div>
                   )}
-                  
+
                   {/* Date (Optional, if you have a date field in bill) */}
                   <div>{bill.updatedAt.split('T')[0]}</div>
 
@@ -57,11 +57,11 @@ const History = () => {
                   {/* Quantity */}
                   <div>{product.quantity}</div>
 
-               
+
                   <div>₹{product.price}</div>
+                  <div> {bill.totalAmount} </div>
                 </div>
               ))}
-              <div> {} </div>
             </div>
           ))}
         </div>

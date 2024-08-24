@@ -66,8 +66,9 @@ const CreateBill = () => {
     const detailsToSend = {
       customerName: customerName,
       products: products,
-      total:totalAmount
+      totalAmount,
     }
+    console.log(detailsToSend);
     navigate('/bill', { state: detailsToSend })
 
     const response = await dispatch(createBill(detailsToSend))

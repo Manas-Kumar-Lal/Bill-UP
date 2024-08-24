@@ -35,7 +35,7 @@ const SingleBill = () => {
     }, [billdata]);
 
     const calculateOverallTotal = () => {
-        return products?.reduce((acc, product) => acc + product.total, 0);
+        return products?.reduce((acc, product) => acc + product?.totalAmount, 0);
     };
 
     const numberToWords = (num) => {
@@ -117,8 +117,8 @@ const SingleBill = () => {
             </table>
 
             <div className="text-right mb-6">
-                <div className="text-lg font-bold">Overall Total: ₹{billdata.total}</div>
-                <div className="text-lg font-bold">     {numberToWords(billdata.total)} jonly</div>
+                <div className="text-lg font-bold">Overall Total: ₹{billdata.totalAmount}</div>
+                <div className="text-lg font-bold">     {numberToWords(billdata.totalAmount)} jonly</div>
            
             </div>
 

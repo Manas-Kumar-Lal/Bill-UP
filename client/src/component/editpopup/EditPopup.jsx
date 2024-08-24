@@ -13,6 +13,7 @@ const EditPopup = ({ setEditPopup, editpopup, edititem }) => {
 
     useEffect(() => {
         if (edititem) {
+            setProductId(edititem?._id);
             setProductName(edititem.productName);
             setQuantity(edititem.quantity);
             setCp(edititem.cp);
