@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import CreateItemPopup from '../component/createitempopup/CreateItemPopup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { switchToItemList } from '../toolkit/slices/pageSwitcher';
-import { uploadItemList } from '../toolkit/slices/ProductApi.slice';
+import { getItemList, uploadItemList } from '../toolkit/slices/ProductApi.slice';
 
 
 const ItemList = () => {
   const dispatch = useDispatch();
+  // const { allitemlist } = useSelector(state => state.ProductApi)
+  // console.log(allitemlist)
   const [createItemPopup, setCreateItemPopup] = useState(false);
   const [productName, setProductName] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
@@ -15,6 +17,7 @@ const ItemList = () => {
 
   useEffect(() => {
     dispatch(switchToItemList());
+    dispatch(getItemList())
   }, []);
 
   const handleSubmit = async () => {
