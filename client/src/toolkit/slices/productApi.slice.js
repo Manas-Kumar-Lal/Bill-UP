@@ -12,10 +12,11 @@ const initialState = {
 }
 
 export const getItemList = createAsyncThunk(
-
+'/product/getallproducts',
     async () => {
         try {
-            const response = await axios.get(``)
+            const response = await axios.get(`${DB_URI}/product/getallproducts`)
+            console.log(response.data)
             return response.data
         } catch (err) {
             throw err.response.data.error
