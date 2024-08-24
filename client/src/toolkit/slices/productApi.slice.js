@@ -11,7 +11,7 @@ const initialState = {
 }
 
 export const getItemList = createAsyncThunk(
-'/product/getallproducts',
+    '/product/getallproducts',
     async () => {
         try {
             const response = await axios.get(`${DB_URI}/product/getallproducts`)
@@ -35,6 +35,36 @@ export const uploadItemList = createAsyncThunk(
         }
     }
 );
+
+
+export const createBill = createAsyncThunk(
+    '/bill/create',
+    async (itemData) => {
+        console.log(itemData)
+        try {
+            const response = await axios.post(`${DB_URI}/bill/create`, itemData)
+            return response.data
+        } catch (err) {
+            throw err.response.data.error
+        }
+    }
+);
+
+export const getBill = createAsyncThunk(
+    '/bill/getallbills',
+    async (itemData) => {
+        console.log(itemData)
+        try {
+            const response = await axios.get(`${DB_URI}/bill/getallbills`)
+            return response.data
+        } catch (err) {
+            throw err.response.data.error
+        }
+    }
+);
+
+
+
 
 const productApi = createSlice({
     name: 'productApi',
@@ -67,6 +97,7 @@ const productApi = createSlice({
             .addCase(uploadItemList.rejected, (state, action) => {
                 state.error = action.error.message;
             });
+
     },
 });
 

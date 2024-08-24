@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { switchToItemList } from '../toolkit/slices/pageSwitcher';
 import { getItemList, uploadItemList } from '../toolkit/slices/ProductApi.slice';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import EditPopup from '../component/editpopup/EditPopup';
 
 const ItemList = () => {
   const dispatch = useDispatch();
   const { products } = useSelector(state => state.productApi)
-  console.log(products)
+
   const [createItemPopup, setCreateItemPopup] = useState(false);
+  const [editpopup, setEditPopup] = useState(false)
+  const [edititem, setEditItem] = useState()
   const [productName, setProductName] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
   const [productCostPrice, setProductCostPrice] = useState("");
@@ -35,6 +38,13 @@ const ItemList = () => {
       dispatch(getItemList())
     }
   };
+
+  const handleEdit = (itemId) => {
+    const item = products.find(product => product._id === itemId);
+    setEditItem(item);
+    setEditPopup(true);
+  };
+  console.log(edititem)
 
   return (
     <div className="w-full flex flex-col bg-gray-100">
@@ -75,6 +85,7 @@ const ItemList = () => {
 
               <div>
                 <button
+
                   className="text-blue-500 hover:text-blue-700"
                   onClick={() => handleEdit(item._id)}
                 >
@@ -110,6 +121,13 @@ const ItemList = () => {
             handleSubmit={() => handleSubmit()}
           />
         )}
+
+        <EditPopup
+          setEditPopup={setEditPopup}
+          editpopup={editpopup}
+          edititem={edititem}
+
+        />
       </div>
     </div>
   );
