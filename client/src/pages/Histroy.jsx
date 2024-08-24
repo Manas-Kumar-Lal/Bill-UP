@@ -34,9 +34,9 @@ const History = () => {
 
           {/* Bills and Products Rows */}
           {bills.map((bill, billIndex) => (
-            <div key={billIndex} className='border-black border-2 mb-2'>
+            <div key={billIndex} className='bg-gray-300 py-3 flex flex-col gap-2 mb-3 rounded-lg'>
               {bill.products.map((product, productIndex) => (
-                <div key={productIndex} className="grid grid-cols-7 gap-4 text-center mb-4">
+                <div key={productIndex} className="grid grid-cols-7 gap-4 text-center">
                   {productIndex === 0 ? (
                     <div rowSpan={bill.products.length} className="font-bold">
                       {bill.billNumber}
@@ -62,15 +62,15 @@ const History = () => {
 
                   {productIndex === 0 ? (
                     <div rowSpan={bill.products.length} className="font-bold">
-                   {bill.totalAmount}
+                      {bill.totalAmount}
                     </div>
                   ) : (
                     <div></div>
                   )}
-                 
+
                 </div>
               ))}
-            
+
             </div>
           ))}
         </div>
