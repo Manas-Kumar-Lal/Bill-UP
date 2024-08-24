@@ -80,7 +80,7 @@ const ItemList = () => {
 
 
           {products.map((item, index) => (
-            <div key={index} className="grid grid-cols-6 gap-4 text-center mb-4">
+            <div key={index} className="bg-gray-300 py-2 rounded-lg grid grid-cols-6 gap-4 text-center mb-4">
 
               <div>{item.productName}</div>
 
@@ -135,11 +135,11 @@ const ItemList = () => {
           edititem={edititem}
         />
 
-        <ConfirmationPopup 
-        confirmationpopup={confirmationpopup} 
-        setConfirmationPopup={setConfirmationPopup}
-        deleteitemID={deleteitemID}
-         />
+        <ConfirmationPopup
+          confirmationpopup={confirmationpopup}
+          setConfirmationPopup={setConfirmationPopup}
+          deleteitemID={deleteitemID}
+        />
       </div>
     </div>
   );

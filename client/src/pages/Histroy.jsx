@@ -15,7 +15,7 @@ const History = () => {
 
   return (
     <div className="w-full flex flex-col bg-gray-100">
-      <div className="h-[calc(100vh-100px)] overflow-y-auto p-4">
+      <div className="overflow-y-auto p-4">
         <div className="flex justify-between bg-white p-4 rounded-lg shadow-lg mb-8">
           <h1 className="text-2xl font-bold">History</h1>
         </div>
@@ -49,7 +49,7 @@ const History = () => {
                   <div>{bill.updatedAt.split('T')[0]}</div>
 
                   {/* Product ID */}
-                  <div>{'NA'}</div>
+                  <div>{bill.customerName}</div>
 
                   {/* Product Name */}
                   <div>{product.productName}</div>
