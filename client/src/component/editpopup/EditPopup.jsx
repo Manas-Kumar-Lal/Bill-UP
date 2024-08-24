@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { getItemList, updateItem } from '../../toolkit/slices/ProductApi.slice';
+import { useDispatch } from 'react-redux';
 
 const EditPopup = ({ setEditPopup, editpopup, edititem }) => {
+    const dispatch = useDispatch();
 
-    const [productID, setProductId] = useState(edititem?._id || "")
+    const [productID, setProductId] = useState(edititem?._id);
     const [productName, setProductName] = useState(edititem?.productName || "");
     const [quantity, setQuantity] = useState(edititem?.quantity || "");
     const [cp, setCp] = useState(edititem?.cp || "");
@@ -22,7 +25,7 @@ const EditPopup = ({ setEditPopup, editpopup, edititem }) => {
     };
 
     const handleSubmit = async () => {
-        const updatedItem = {
+        const updatedata = {
             productID,
             productName,
             quantity,
@@ -30,7 +33,12 @@ const EditPopup = ({ setEditPopup, editpopup, edititem }) => {
             sp,
         };
 
-        setEditPopup(false);
+        const response = await dispatch(updateItem(updatedata));
+        console.log(response);
+        if (response) {
+            setEditPopup(false);
+            dispatch(getItemList());
+        }
     };
 
     return (

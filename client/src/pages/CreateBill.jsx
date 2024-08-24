@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { switchToCreateBill } from '../toolkit/slices/pageSwitcher';
 import InventoryPopup from '../component/inventoryPopup';
+import { useNavigate } from 'react-router-dom';
+import { createBill } from '../toolkit/slices/ProductApi.slice';
 
 const CreateBill = () => {
   const [createItemPopup, setCreateItemPopup] = useState(false);
   const [customerName, setCustomerName] = useState('');
-  const [products, setProducts] = useState([
-    { productID: "", productName: 'sdf', quantity: '', price: '', amount: '' },
-  ]);
-  console.log(products);
+  const [products, setProducts] = useState([]);
+
+  const navigate = useNavigate()
   const [totalAmount, setTotalAmount] = useState(0);
   const dispatch = useDispatch();
 
@@ -60,12 +61,21 @@ const CreateBill = () => {
     return numToWords(num).trim();
   };
 
-  const handleGoAhead = () => {
+  const handleGoAhead = async () => {
     console.log('Go Ahead button clicked');
     const detailsToSend = {
       customerName: customerName,
-      product: products
+      products: products,
+      total:totalAmount
     }
+    navigate('/bill', { state: detailsToSend })
+
+    const response = await dispatch(createBill(detailsToSend))
+    console.log(response)
+    if(response.payload){
+      console.log('bill created')
+    }
+
   };
 
   return (
@@ -132,12 +142,15 @@ const CreateBill = () => {
                 Go Ahead
               </button>
             </div>
-            <div className="text-right font-bold">
-              Total Amount: ₹{totalAmount}
+            <div className='flex flex-col whitespace-nowrap'>
+              <div className="text-right font-bold">
+                Total Amount: ₹{totalAmount}
+              </div>
+              <div className="text-right">
+                Amount in Words: {numberToWords(totalAmount)}
+              </div>
             </div>
-            <div className="text-right">
-              Amount in Words: {numberToWords(totalAmount)}
-            </div>
+
           </div>
         </div>
       </div>

@@ -5,13 +5,15 @@ import { switchToItemList } from '../toolkit/slices/pageSwitcher';
 import { getItemList, uploadItemList } from '../toolkit/slices/ProductApi.slice';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import EditPopup from '../component/editpopup/EditPopup';
+import ConfirmationPopup from '../component/confirmationpopup/ConfirmationPopup';
 
 const ItemList = () => {
   const dispatch = useDispatch();
   const { products } = useSelector(state => state.productApi)
-
+  const [deleteitemID, setDeleteItemID] = useState("")
   const [createItemPopup, setCreateItemPopup] = useState(false);
   const [editpopup, setEditPopup] = useState(false)
+  const [confirmationpopup, setConfirmationPopup] = useState(false)
   const [edititem, setEditItem] = useState()
   const [productName, setProductName] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
@@ -44,7 +46,12 @@ const ItemList = () => {
     setEditItem(item);
     setEditPopup(true);
   };
-  console.log(edititem)
+
+  const handleDelete = (itemId) => {
+    const item = products.find(product => product._id === itemId);
+    setDeleteItemID(item?._id)
+    setConfirmationPopup(true);
+  };
 
   return (
     <div className="w-full flex flex-col bg-gray-100">
@@ -126,8 +133,13 @@ const ItemList = () => {
           setEditPopup={setEditPopup}
           editpopup={editpopup}
           edititem={edititem}
-
         />
+
+        <ConfirmationPopup 
+        confirmationpopup={confirmationpopup} 
+        setConfirmationPopup={setConfirmationPopup}
+        deleteitemID={deleteitemID}
+         />
       </div>
     </div>
   );
