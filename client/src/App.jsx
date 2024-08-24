@@ -2,6 +2,7 @@ import './App.css'
 import SideNav from './component/sidenav/SideNav'
 import { Routes, Route } from 'react-router-dom'
 import { Home, History, CreateBill, ItemList } from './pages/Index'
+import SingleBill from './pages/singleBill'
 
 function App() {
 
@@ -11,12 +12,12 @@ function App() {
         <SideNav />
       </div>
 
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/itemlist" element={<ItemList />} />
         <Route path="/createbill" element={<CreateBill />} />
         <Route path="/history" element={<History />} />
+        <Route path="/bill" element={<SingleBill />} />
       </Routes>
     </div>
   )
