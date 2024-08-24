@@ -17,9 +17,10 @@ const InventoryPopup = ({ addedProducts, setAddedProducts, createItemPopup, setC
 
     const handleAddProduct = (item) => {
         setAddedProducts([...addedProducts, {
+            productID: item._id,
             productName: item.productName,
             quantity: '',
-            rate: '',
+            price: '',
             amount: '',
         }])
     }

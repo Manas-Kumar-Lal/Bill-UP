@@ -5,31 +5,24 @@ import InventoryPopup from '../component/inventoryPopup';
 
 const CreateBill = () => {
   const [createItemPopup, setCreateItemPopup] = useState(false);
+  const [customerName, setCustomerName] = useState('');
   const [products, setProducts] = useState([
-    { productName: 'sdf', quantity: '', rate: '', amount: '' },
-    { productName: 'ggggg', quantity: '', rate: '', amount: '' }
+    { productID: "", productName: 'sdf', quantity: '', price: '', amount: '' },
   ]);
   console.log(products);
-  const [billNo, setBillNo] = useState('');
   const [totalAmount, setTotalAmount] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(switchToCreateBill());
-    generateBillNumber();
   }, []);
-
-  const generateBillNumber = () => {
-    const newBillNo = `BILL-${Math.floor(Math.random() * 10)}`;
-    setBillNo(newBillNo);
-  };
 
   const handleInputChange = (index, field, value) => {
     const updatedProducts = products.map((product, i) => {
       if (i === index) {
         const updatedProduct = { ...product, [field]: value };
-        if (field === 'rate' || field === 'quantity') {
-          const amount = updatedProduct.rate * updatedProduct.quantity;
+        if (field === 'price' || field === 'quantity') {
+          const amount = updatedProduct.price * updatedProduct.quantity;
           updatedProduct.amount = isNaN(amount) ? '' : amount;
         }
         return updatedProduct;
@@ -69,6 +62,10 @@ const CreateBill = () => {
 
   const handleGoAhead = () => {
     console.log('Go Ahead button clicked');
+    const detailsToSend = {
+      customerName: customerName,
+      product: products
+    }
   };
 
   return (
@@ -86,31 +83,14 @@ const CreateBill = () => {
           </div>
 
           <div className="w-full bg-white p-6 rounded-lg shadow-lg mb-1">
-            <div className="flex justify-between">
-              <div className="w-1/2">
-                <input
-                  type="text"
-                  value={billNo}
-                  className="w-full p-2 border rounded"
-                  readOnly
-                />
-              </div>
-              <div className="w-1/2">
-                <input
-                  type="text"
-                  value={new Date().toLocaleDateString()}
-                  className="w-full p-2 border rounded"
-                  readOnly
-                />
-              </div>
-            </div>
+            <input type="name" placeholder='Customer Name' className="w-full p-2 border rounded" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
           </div>
 
           <div className="w-full bg-white p-6 rounded-lg shadow-lg">
             <div className="grid grid-cols-4 gap-4 text-center font-bold mb-4">
               <div>Product Name</div>
               <div>Quantity</div>
-              <div>Rate</div>
+              <div>Price</div>
               <div>Amount</div>
             </div>
 
@@ -126,9 +106,9 @@ const CreateBill = () => {
                 />
                 <input
                   type="number"
-                  value={product.rate}
-                  onChange={(e) => handleInputChange(index, 'rate', e.target.value)}
-                  placeholder="Rate"
+                  value={product.price}
+                  onChange={(e) => handleInputChange(index, 'price', e.target.value)}
+                  placeholder="Price"
                   className="p-2 border rounded"
                 />
                 <input
