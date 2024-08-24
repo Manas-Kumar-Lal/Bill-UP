@@ -4,11 +4,11 @@ const errorHandler = require('../utilities/errorHandler.utility.js');
 
 // Controller to create a bill
 const createBill = asyncHandler(async (req, res, next) => {
-    const { customerName, products } = req.body;
-    console.log(products);
+    const { customerName, products, totalAmount } = req.body;
+
     // Validate request body
-    if (!customerName || !products) {
-        return next(new errorHandler("customerName, products must be provided"));
+    if (!customerName || !products || !totalAmount) {
+        return next(new errorHandler("customerName, products, totalAmount must be provided"));
     }
 
     // Trim the customerName and make it case-insensitive
@@ -23,6 +23,7 @@ const createBill = asyncHandler(async (req, res, next) => {
         billNumber,
         customerName: trimmedCustomerName,
         products,
+        totalAmount,
     });
 
     // Respond with the saved bill

@@ -13,6 +13,10 @@ const BillSchema = new mongoose.Schema({
         trim: true,
         lowercase: true
     },
+    totalAmount: {
+        type: Number,
+        required: true,
+    },
     products: [
         {
             productID: {
