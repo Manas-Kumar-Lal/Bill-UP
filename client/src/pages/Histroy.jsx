@@ -48,8 +48,14 @@ const History = () => {
                   {/* Date (Optional, if you have a date field in bill) */}
                   <div>{bill.updatedAt.split('T')[0]}</div>
 
-                  {/* Product ID */}
-                  <div>{bill.customerName}</div>
+                  {productIndex === 0 ? (
+                    <div rowSpan={bill.products.length} className="font-bold">
+                     {bill.customerName}
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+                
 
                   {/* Product Name */}
                   <div>{product.productName}</div>
