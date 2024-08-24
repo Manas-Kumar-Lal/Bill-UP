@@ -118,7 +118,7 @@ const SingleBill = () => {
 
             <div className="text-right mb-6">
                 <div className="text-lg font-bold">Overall Total: ₹{billdata.totalAmount}</div>
-                <div className="text-lg font-bold">     {numberToWords(billdata.totalAmount)} jonly</div>
+                <div className="text-lg font-bold">     {numberToWords(billdata.totalAmount)} only</div>
            
             </div>
 
