@@ -94,6 +94,7 @@ const CreateBill = () => {
           </div>
 
           <div className="w-full bg-white p-6 rounded-lg shadow-lg mb-1">
+            <div className='text-red-600 font-bold text-lg' > {"Required"} </div>
             <input type="name" placeholder='Customer Name' className="w-full p-2 border rounded" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
           </div>
 
