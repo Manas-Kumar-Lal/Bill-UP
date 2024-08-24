@@ -4,10 +4,12 @@ import { switchToCreateBill } from '../toolkit/slices/pageSwitcher';
 import InventoryPopup from '../component/inventoryPopup';
 
 const CreateBill = () => {
-  const [selectedProduct, setSelectedProduct] = useState('');
   const [createItemPopup, setCreateItemPopup] = useState(false);
-  const [productList] = useState(['Product A', 'Product B', 'Product C']);
-  const [products, setProducts] = useState([{ name: '', quantity: '', rate: '', gst: '', amount: '' }]);
+  const [products, setProducts] = useState([
+    { productName: 'sdf', quantity: '', rate: '', amount: '' },
+    { productName: 'ggggg', quantity: '', rate: '', amount: '' }
+  ]);
+  console.log(products);
   const [billNo, setBillNo] = useState('');
   const [totalAmount, setTotalAmount] = useState(0);
   const dispatch = useDispatch();
@@ -20,10 +22,6 @@ const CreateBill = () => {
   const generateBillNumber = () => {
     const newBillNo = `BILL-${Math.floor(Math.random() * 10)}`;
     setBillNo(newBillNo);
-  };
-
-  const handleAddProduct = () => {
-    setProducts([...products, { id: '', name: '', quantity: '', rate: '', gst: '', amount: '' }]);
   };
 
   const handleInputChange = (index, field, value) => {
@@ -75,7 +73,7 @@ const CreateBill = () => {
 
   return (
     <>
-      <InventoryPopup createItemPopup={createItemPopup} setCreateItemPopup={setCreateItemPopup}/>
+      <InventoryPopup addedProducts={products} setAddedProducts={setProducts} createItemPopup={createItemPopup} setCreateItemPopup={setCreateItemPopup} />
       <div className="w-full flex flex-col bg-gray-100">
         <div className="h-[calc(100vh-10px)] overflow-y-auto p-4">
           <div className="flex justify-evenly bg-white p-2 mt-4 rounded-lg shadow-lg mb-8">
@@ -109,26 +107,16 @@ const CreateBill = () => {
           </div>
 
           <div className="w-full bg-white p-6 rounded-lg shadow-lg">
-            <div className="grid grid-cols-5 gap-4 text-center font-bold mb-4">
+            <div className="grid grid-cols-4 gap-4 text-center font-bold mb-4">
               <div>Product Name</div>
               <div>Quantity</div>
               <div>Rate</div>
-              <div>GST (%)</div>
               <div>Amount</div>
             </div>
 
             {products.map((product, index) => (
-              <div key={index} className="grid grid-cols-5 gap-4 mb-4">
-                <select
-                  value={product.name}
-                  onChange={(e) => handleInputChange(index, 'name', e.target.value)}
-                  className="p-2 border rounded"
-                >
-                  <option value="" disabled>Select Product</option>
-                  {productList.map((product) => (
-                    <option key={product} value={product}>{product}</option>
-                  ))}
-                </select>
+              <div key={index} className="grid grid-cols-4 gap-4 mb-4">
+                <h2>{product?.productName}</h2>
                 <input
                   type="number"
                   value={product.quantity}
@@ -145,13 +133,6 @@ const CreateBill = () => {
                 />
                 <input
                   type="number"
-                  value={product.gst}
-                  onChange={(e) => handleInputChange(index, 'gst', e.target.value)}
-                  placeholder="GST %"
-                  className="p-2 border rounded"
-                />
-                <input
-                  type="number"
                   value={product.amount}
                   onChange={(e) => handleInputChange(index, 'amount', e.target.value)}
                   placeholder="Amount"
@@ -161,7 +142,7 @@ const CreateBill = () => {
               </div>
             ))}
 
-            <button onClick={()=>setCreateItemPopup(true)} className="bg-blue-500 text-white px-4 py-2 rounded">Add Product</button>
+            <button onClick={() => setCreateItemPopup(true)} className="bg-blue-500 text-white px-4 py-2 rounded">Add Product</button>
           </div>
 
           {/* Total Amount */}
