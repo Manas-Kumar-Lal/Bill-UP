@@ -26,7 +26,6 @@ const createProduct = asyncHandler(async (req, res, next) => {
         cp,
         sp
     });
-    console.log(productName);
 
     // Respond with the saved product
     res.status(201).send({
@@ -79,7 +78,7 @@ const getSingleProduct = asyncHandler(async (req, res, next) => {
 // Controller to update a product
 const updateProduct = asyncHandler(async (req, res, next) => {
     const { productID, productName, quantity, cp, sp } = req.body;
-    console.log(productID, productName, quantity, cp, sp);
+
     // Validate request body
     if (!productID || !productName || !quantity || !cp || !sp) {
         return next(new errorHandler("productID, productName, quantity, cp, and sp must be provided"));

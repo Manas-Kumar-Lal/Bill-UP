@@ -43,8 +43,10 @@ app.use(cors(corsOptions));
 
 // routes import***********
 const productRoute = require('./routes/product.route.js')
+const billRoute = require('./routes/bill.route.js')
 
 app.use('/api/v1', productRoute)
+app.use('/api/v1', billRoute)
 app.use(express.urlencoded({ extended: true }))
 
 // middleware imports*******
