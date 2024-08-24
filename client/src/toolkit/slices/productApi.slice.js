@@ -3,12 +3,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'
 
 const DB_URI = import.meta.env.VITE_DB_URI
-console.log(DB_URI);
 
 const initialState = {
 
-    allitemlist: [],
-
+    products: [],
     error: "",
 }
 
@@ -17,8 +15,8 @@ export const getItemList = createAsyncThunk(
     async () => {
         try {
             const response = await axios.get(`${DB_URI}/product/getallproducts`)
-            console.log(response.data)
-            return response.data
+            console.log(response.data.responseData.products)
+            return response.data.responseData.products
         } catch (err) {
             throw err.response.data.error
         }
@@ -30,7 +28,7 @@ export const uploadItemList = createAsyncThunk(
     async (itemData) => {
         console.log(itemData)
         try {
-            const response = await axios.post(`${DB_URI}//product/create`, itemData)
+            const response = await axios.post(`${DB_URI}/product/create`, itemData)
             return response.data
         } catch (err) {
             throw err.response.data.error
@@ -38,8 +36,8 @@ export const uploadItemList = createAsyncThunk(
     }
 );
 
-const ProductApi = createSlice({
-    name: 'productapi',
+const productApi = createSlice({
+    name: 'productApi',
     initialState,
     reducers: {
         clearError: (state) => {
@@ -53,7 +51,7 @@ const ProductApi = createSlice({
                 state.error = "";
             })
             .addCase(getItemList.fulfilled, (state, action) => {
-                state.allitemlist = action.payload;
+                state.products = action.payload;
             })
             .addCase(getItemList.rejected, (state, action) => {
                 state.error = action.error.message;
@@ -64,7 +62,7 @@ const ProductApi = createSlice({
                 state.error = "";
             })
             .addCase(uploadItemList.fulfilled, (state, action) => {
-                state.allitemlist = action.payload;
+                // state.allitemlist = action.payload;
             })
             .addCase(uploadItemList.rejected, (state, action) => {
                 state.error = action.error.message;
@@ -72,6 +70,6 @@ const ProductApi = createSlice({
     },
 });
 
-export const { clearError } = ProductApi.actions;
+export const { clearError } = productApi.actions;
 
-export default ProductApi.reducer;
+export default productApi.reducer;
