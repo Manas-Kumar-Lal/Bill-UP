@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'
 
 const DB_URI = import.meta.env.VITE_DB_URI
+console.log(DB_URI);
 
 const initialState = {
 
