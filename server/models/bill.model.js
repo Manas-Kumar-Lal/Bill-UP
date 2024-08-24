@@ -33,10 +33,8 @@ const BillSchema = new mongoose.Schema({
             },
         }
     ],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+}, {
+    timestamps: true // Adds createdAt and updatedAt timestamps
 });
 
 // Create the model from the schema and export it

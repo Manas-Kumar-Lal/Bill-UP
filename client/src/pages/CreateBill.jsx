@@ -5,7 +5,7 @@ import { switchToCreateBill } from '../toolkit/slices/pageSwitcher';
 const CreateBill = () => {
   const [selectedProduct, setSelectedProduct] = useState('');
   const [productList] = useState(['Product A', 'Product B', 'Product C']);
-  const [products, setProducts] = useState([{ id: '', name: '', quantity: '', rate: '', gst: '', amount: '' }]);
+  const [products, setProducts] = useState([{ name: '', quantity: '', rate: '', gst: '', amount: '' }]);
   const [billNo, setBillNo] = useState('');
   const [totalAmount, setTotalAmount] = useState(0);
   const dispatch = useDispatch();
@@ -105,8 +105,7 @@ const CreateBill = () => {
         </div>
 
         <div className="w-full bg-white p-6 rounded-lg shadow-lg">
-          <div className="grid grid-cols-6 gap-4 text-center font-bold mb-4">
-            <div>Product ID</div>
+          <div className="grid grid-cols-5 gap-4 text-center font-bold mb-4">
             <div>Product Name</div>
             <div>Quantity</div>
             <div>Rate</div>
@@ -115,14 +114,7 @@ const CreateBill = () => {
           </div>
 
           {products.map((product, index) => (
-            <div key={index} className="grid grid-cols-6 gap-4 mb-4">
-              <input
-                type="text"
-                value={product.id}
-                onChange={(e) => handleInputChange(index, 'id', e.target.value)}
-                placeholder="Product ID"
-                className="p-2 border rounded"
-              />
+            <div key={index} className="grid grid-cols-5 gap-4 mb-4">
               <select
                 value={product.name}
                 onChange={(e) => handleInputChange(index, 'name', e.target.value)}
