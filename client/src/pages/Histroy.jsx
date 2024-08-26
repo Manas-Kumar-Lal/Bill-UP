@@ -50,12 +50,12 @@ const History = () => {
 
                   {productIndex === 0 ? (
                     <div rowSpan={bill.products.length} className="font-bold">
-                     {bill.customerName}
+                      {bill.customerName}
                     </div>
                   ) : (
                     <div></div>
                   )}
-                
+
 
                   {/* Product Name */}
                   <div>{product.productName}</div>

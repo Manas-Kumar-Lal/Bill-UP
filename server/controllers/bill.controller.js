@@ -1,4 +1,5 @@
 const Bill = require('../models/bill.model.js');
+const Product = require('../models/product.model.js');
 const asyncHandler = require('../utilities/asyncHandler.utility.js');
 const errorHandler = require('../utilities/errorHandler.utility.js');
 
@@ -25,6 +26,17 @@ const createBill = asyncHandler(async (req, res, next) => {
         products,
         totalAmount,
     });
+
+    // Product quantity updation from inventory
+    if (responseData) {
+        for (const product of products) {
+            const singleProduct = await Product.findById(product?.productID);
+            if (singleProduct) {
+                singleProduct.quantity -= product.quantity;
+                await singleProduct.save();
+            }
+        }
+    }
 
     // Respond with the saved bill
     res.status(201).send({
