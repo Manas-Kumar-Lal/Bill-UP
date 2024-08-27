@@ -1,75 +1,67 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import Notifications, { notify } from 'react-notify-toast';
 import { useLocation } from 'react-router-dom';
 
 const SingleBill = () => {
-    const [companyDetails, setCompanyDetails] = useState(null);
+    const [companyDetails, setCompanyDetails] = useState({
+        companyName: '',
+        companyAddress: '',
+        companyPhone: '',
+        customerName: '',
+        createdDate: '',
+    });
     const [products, setProducts] = useState([]);
 
     const location = useLocation();
     const billdata = location.state;
-    console.log(billdata);
 
     useEffect(() => {
-        // Fetch company and invoice details
-        const fetchInvoiceData = async () => {
-            try {
-                const response = await axios.get('/api/invoice'); // Replace with your API endpoint
-                const { company, customerName, createdDate, products } = response.data;
-
-                setCompanyDetails({
-                    companyName: "New Text-Tile Company",
-                    companyAddress: "xyz road bhagalpur bihar",
-                    companyPhone: "9965485588",
-                    customerName: billdata.customerName,
-                    createdDate: "", // You might want to set this from response.data if available
-                });
-
-                setProducts(products);
-            } catch (error) {
-                console.error('Error fetching invoice data:', error);
-            }
-        };
-
-        fetchInvoiceData();
+        if (billdata) {
+            setCompanyDetails({
+                companyName: "New Text-Tile Company",
+                companyAddress: "xyz road bhagalpur bihar",
+                companyPhone: "9965485588",
+                customerName: billdata.customerName,
+                createdDate: "", // Set this from billdata if available
+            });
+            setProducts(billdata.products || []);
+            notify.show('Bill created successfully!', 'success', 2000);
+        }
     }, [billdata]);
-
-    const calculateOverallTotal = () => {
-        return products?.reduce((acc, product) => acc + product?.totalAmount, 0);
-    };
 
     const numberToWords = (num) => {
         const a = [
-          '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
-          'sixteen', 'seventeen', 'eighteen', 'nineteen'
+            '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
+            'sixteen', 'seventeen', 'eighteen', 'nineteen'
         ];
         const b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
         const c = ['hundred', 'thousand', 'lakh', 'crore'];
-    
+
         const numToWords = (n) => {
-          if (n === 0) return '';
-          if (n < 20) return a[n] + ' ';
-          if (n < 100) return b[Math.floor(n / 10)] + ' ' + a[n % 10] + ' ';
-          if (n < 1000) return a[Math.floor(n / 100)] + ' ' + c[0] + ' ' + numToWords(n % 100);
-          if (n < 100000) return numToWords(Math.floor(n / 1000)) + c[1] + ' ' + numToWords(n % 1000);
-          if (n < 10000000) return numToWords(Math.floor(n / 100000)) + c[2] + ' ' + numToWords(n % 100000);
-          return numToWords(Math.floor(n / 10000000)) + c[3] + ' ' + numToWords(n % 10000000);
+            if (n === 0) return '';
+            if (n < 20) return a[n] + ' ';
+            if (n < 100) return b[Math.floor(n / 10)] + ' ' + a[n % 10] + ' ';
+            if (n < 1000) return a[Math.floor(n / 100)] + ' ' + c[0] + ' ' + numToWords(n % 100);
+            if (n < 100000) return numToWords(Math.floor(n / 1000)) + c[1] + ' ' + numToWords(n % 1000);
+            if (n < 10000000) return numToWords(Math.floor(n / 100000)) + c[2] + ' ' + numToWords(n % 100000);
+            return numToWords(Math.floor(n / 10000000)) + c[3] + ' ' + numToWords(n % 10000000);
         };
-    
+
         if (num === 0) return 'zero';
         return numToWords(num).trim();
-      };
+    };
 
     const handlePrint = () => {
         window.print();
     };
 
-    if (!companyDetails) {
-        return <div>Loading...</div>;
+    if (!billdata) {
+        return <div>Error: No bill data found</div>;
     }
 
     return (
         <div className="max-w-4xl mx-auto p-8 bg-gray-100 rounded-lg shadow-md">
+            <Notifications /> 
             <h1 className="text-2xl font-bold mb-6 text-center">Invoice</h1>
 
             <div className="grid grid-cols-2 gap-6 mb-6">
@@ -119,12 +111,8 @@ const SingleBill = () => {
             <div className="text-right mb-6">
                 <div className="text-lg font-bold">Overall Total: ₹{billdata.totalAmount}</div>
                 <div className="text-lg font-bold">     {numberToWords(billdata.totalAmount)} only</div>
-           
             </div>
 
-          
-
-            {/* Print Button */}
             <div className="text-center">
                 <button
                     onClick={handlePrint}

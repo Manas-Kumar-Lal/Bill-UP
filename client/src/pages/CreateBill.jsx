@@ -5,10 +5,13 @@ import InventoryPopup from '../component/inventoryPopup';
 import { useNavigate } from 'react-router-dom';
 import { createBill } from '../toolkit/slices/ProductApi.slice';
 
+
 const CreateBill = () => {
   const [createItemPopup, setCreateItemPopup] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [products, setProducts] = useState([]);
+  const [displaycustNameerror, setDisplayCustNameError] = useState(false)
+  const [displayNoproducterror, setDisplayNoProductError] = useState(false)
 
   const navigate = useNavigate()
   const [totalAmount, setTotalAmount] = useState(0);
@@ -62,22 +65,38 @@ const CreateBill = () => {
   };
 
   const handleGoAhead = async () => {
-    console.log('Go Ahead button clicked');
-    const detailsToSend = {
-      customerName: customerName,
-      products: products,
-      totalAmount,
-    }
-    console.log(detailsToSend);
-    navigate('/bill', { state: detailsToSend })
+    let valid = true;
 
-    const response = await dispatch(createBill(detailsToSend))
-    console.log(response)
-    if (response.payload) {
-      console.log('bill created')
+    if (customerName.trim() === '') {
+      setDisplayCustNameError(true);
+      valid = false;
+    } else {
+      setDisplayCustNameError(false);
     }
 
+    if (products.length === 0) {
+      setDisplayNoProductError(true);
+      valid = false;
+    } else {
+      setDisplayNoProductError(false);
+    }
+
+    if (valid) {
+      const detailsToSend = {
+        customerName: customerName,
+        products: products,
+        totalAmount,
+      };
+
+      navigate('/bill', { state: detailsToSend });
+
+      const response = await dispatch(createBill(detailsToSend));
+      if (response.payload) {
+        console.log('Bill created successfully!');
+      }
+    }
   };
+
 
   return (
     <>
@@ -94,14 +113,18 @@ const CreateBill = () => {
           </div>
 
           <div className="w-full bg-white p-6 rounded-lg shadow-lg mb-1">
-            <div className='text-red-600 text-lg mb-2' > Required * </div>
-            <input type="name" placeholder='Customer Name' className="w-full p-2 border rounded" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
+            <div className='text-red-600 text-lg mb-2' > {displaycustNameerror && "Customer Name Required *"}  </div>
+
+            <input type="name" placeholder='Customer Name' className="w-full p-2 border rounded" value={customerName} onChange={(e) => { setCustomerName(e.target.value), setDisplayCustNameError(false) }} />
           </div>
 
           <div className="w-full bg-white p-6 rounded-lg shadow-lg">
             {
               products?.length <= 0 ? (
-                <p className='mb-3'>Please Add Products..!!</p>
+                <div> <p className='mb-3'>Please Add Products..!!</p>
+                  <div className='text-red-600 text-lg mb-2' > {displayNoproducterror && "Add Atleast one item"}  </div>
+                </div>
+
               ) : (
                 <div className="grid grid-cols-4 gap-4 text-center font-bold mb-4">
                   <div>Product Name</div>
