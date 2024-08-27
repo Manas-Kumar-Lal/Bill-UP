@@ -49,7 +49,7 @@ const createBill = asyncHandler(async (req, res, next) => {
 // Controller to get all bills
 const getAllBills = asyncHandler(async (req, res, next) => {
     // Fetch all bills from the database
-    const bills = await Bill.find()
+    const bills = await Bill.find().sort({ createdAt: -1 });
 
     // Check if there are any bills
     if (!bills || bills.length === 0) {
