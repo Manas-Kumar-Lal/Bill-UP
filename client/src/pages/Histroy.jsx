@@ -24,8 +24,8 @@ const History = () => {
           {/* Header Row */}
           <div className="grid grid-cols-7 gap-4 text-center font-bold mb-4">
             <div>Bill No</div>
-            <div>Date</div>
             <div>Customer Name</div>
+            <div>Date</div>
             <div>Product Name</div>
             <div>Quantity</div>
             <div>sp</div>
@@ -45,9 +45,6 @@ const History = () => {
                     <div></div>
                   )}
 
-                  {/* Date (Optional, if you have a date field in bill) */}
-                  <div>{bill.updatedAt.split('T')[0]}</div>
-
                   {productIndex === 0 ? (
                     <div rowSpan={bill.products.length} className="font-bold">
                       {bill.customerName}
@@ -56,6 +53,14 @@ const History = () => {
                     <div></div>
                   )}
 
+                  {/* Date (Optional, if you have a date field in bill) */}
+                  {productIndex === 0 ? (
+                    <div rowSpan={bill.products.length}>
+                      {bill.updatedAt.split('T')[0]}
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
 
                   {/* Product Name */}
                   <div>{product.productName}</div>

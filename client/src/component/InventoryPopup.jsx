@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { getItemList } from '../toolkit/slices/ProductApi.slice';
 import { useDispatch, useSelector } from 'react-redux';
 
-const InventoryPopup = ({ addedProducts, setAddedProducts, createItemPopup, setCreateItemPopup, }) => {
+const InventoryPopup = ({ addedProducts, handleInputChange, setAddedProducts, createItemPopup, setCreateItemPopup, }) => {
 
     const dispatch = useDispatch();
     const { products } = useSelector(state => state.productApi)
@@ -19,11 +19,17 @@ const InventoryPopup = ({ addedProducts, setAddedProducts, createItemPopup, setC
         setAddedProducts([...addedProducts, {
             productID: item._id,
             productName: item.productName,
-            quantity: '',
+            quantity: 1,
             price: item.sp,
             amount: '',
         }])
     }
+
+    useEffect(() => {
+        addedProducts.map((product, index) => {
+            handleInputChange(index, 'quantity', product.quantity ?? 1)
+        })
+    }, [addedProducts])
 
     return (
         <div className={`z-[900] w-full h-screen bg-black/50 fixed top-0 left-0 flex items-center justify-center ${createItemPopup ? 'scale-1' : 'scale-0 delay-300'} flex flex-col `}>
@@ -60,7 +66,7 @@ const InventoryPopup = ({ addedProducts, setAddedProducts, createItemPopup, setC
                         Cancel
                     </button>
                     <button
-                    onClick={handleCancel}
+                        onClick={handleCancel}
                         type="submit"
                         className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >

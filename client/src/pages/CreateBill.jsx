@@ -100,7 +100,7 @@ const CreateBill = () => {
 
   return (
     <>
-      <InventoryPopup addedProducts={products} setAddedProducts={setProducts} createItemPopup={createItemPopup} setCreateItemPopup={setCreateItemPopup} />
+      <InventoryPopup addedProducts={products} handleInputChange={handleInputChange} setAddedProducts={setProducts} createItemPopup={createItemPopup} setCreateItemPopup={setCreateItemPopup} />
       <div className="w-full flex flex-col bg-gray-100">
         <div className="h-[calc(100vh-10px)] overflow-y-auto p-4">
           <div className="flex justify-evenly bg-white p-2 mt-4 rounded-lg shadow-lg mb-8">
